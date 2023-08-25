@@ -1,26 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View } from 'react-native';
-import Layout from './components/Layout';
 import { FC } from 'react';
-import Typography from './components/Typography';
-import Pizza from './components/Pizza/Pizza';
+import { NavigationContainer } from '@react-navigation/native';
+import Navigation from './components/Navigation';
+import Navbar from './components/Navbar';
 
 const App: FC = () => {
   return (
-    <Layout>
-      <View style={styles.container}>
-        <Typography text='Лучшая пицца🍕' size={30} weight={"900"} />
-        <Pizza />
-        <StatusBar style="auto" />
-      </View>
-    </Layout>
+    <NavigationContainer>
+      <Navigation />
+      <StatusBar style="auto" />
+    </NavigationContainer>
   );
 }
 
 export default App;
-
-const styles = StyleSheet.create({
-  container: {
-    paddingBottom: 30,
-  },
-});
