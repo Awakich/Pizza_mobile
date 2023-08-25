@@ -4,7 +4,7 @@ import Typography from './Typography'
 
 const Navbar: FC = () => {
     return (
-        <View style={styles.navbar}>
+        <View>
             <Typography text='Лучшая пицца🍕' size={30} weight={"900"} />
         </View>
     )
@@ -12,8 +12,4 @@ const Navbar: FC = () => {
 
 export default Navbar
 
-const styles = StyleSheet.create({
-    navbar: {
-        paddingHorizontal: 20
-    }
-})
+const styles = StyleSheet.create({})
