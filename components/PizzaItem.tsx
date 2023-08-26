@@ -13,10 +13,10 @@ const PizzaItem: FC<pizzas> = ({ imageUrl, price, title, description, id }) => {
             <Image source={{ uri: imageUrl }} style={{ width: 130, height: 130 }} />
 
             <View style={styles.textblock}>
-                <Typography text={title} size={17} weight='700' />
-                <Typography text={description} size={13} weight="300" />
+                <Typography align='auto' color='#000' text={title} size={17} weight='700' />
+                <Typography align='auto' color='#000' text={description} size={13} weight="300" />
 
-                <Button title={`от ${price} ₽`} />
+                <Button size={100} title={`от ${price} ₽`} />
             </View>
         </TouchableOpacity>
     )

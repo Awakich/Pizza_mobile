@@ -11,15 +11,15 @@ const Cart: FC = () => {
         <Layout>
             {cart.length ? "cart" :
                 <View style={styles.empty}>
-                    <Typography size={24} text='Корзина пуста' weight='600' />
-                    <Typography size={16} text='Попробуйте добавить что-нибудь в неё' weight='300' />
+                    <Typography align='center' color='#000' size={24} text='Корзина пуста' weight='600' />
+                    <Typography align='center' color='#000' size={16} text='Попробуйте добавить что-нибудь в неё' weight='300' />
                 </View>
             }
         </Layout>
     )
 }
 
-export default Cart
+export default Cart;
 
 const styles = StyleSheet.create({
     empty: {

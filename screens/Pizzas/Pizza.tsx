@@ -7,6 +7,7 @@ import Typography from '../../components/Typography'
 import Layout from '../../components/Layout'
 import Loading from '../../components/Loading'
 import Navbar from '../../components/Navbar'
+import Categories from '../../components/Categories'
 
 const Pizza: FC = () => {
     const [pizzas, setPizzas] = useState<pizzas[]>([])
@@ -20,6 +21,7 @@ const Pizza: FC = () => {
     return (
         <Layout>
             <Navbar />
+            <Categories />
             <FlatList showsVerticalScrollIndicator={false} keyExtractor={(item) => item.id?.toString() as string} data={pizzas} renderItem={(item) => (
                 <PizzaItem
                     description={item.item.description}

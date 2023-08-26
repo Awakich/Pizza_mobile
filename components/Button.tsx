@@ -1,15 +1,17 @@
-import { StyleSheet, Text } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { FC } from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import Typography from './Typography'
 
 type button = {
-    title: string
+    title: string,
+    size: "100%" | 100
 }
 
-const Button: FC<button> = ({ title }) => {
+const Button: FC<button> = ({ title, size }) => {
     return (
-        <TouchableOpacity activeOpacity={0.8} style={styles.button}>
-            <Text style={styles.buttonText}>{title}</Text>
+        <TouchableOpacity activeOpacity={0.8} style={[{ width: size }, styles.button]}>
+            <Typography align='center' size={14} text={title} weight='600' color='#fff' />
         </TouchableOpacity>
     )
 }
@@ -17,17 +19,10 @@ const Button: FC<button> = ({ title }) => {
 export default Button;
 
 const styles = StyleSheet.create({
-
     button: {
-        backgroundColor: '#EA580C',
-        borderRadius: 100,
-        width: 100,
         paddingVertical: 10,
         marginTop: 10,
+        backgroundColor: "#EA580C",
+        borderRadius: 100,
     },
-
-    buttonText: {
-        color: '#fff',
-        textAlign: 'center',
-    }
 })

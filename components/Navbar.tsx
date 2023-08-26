@@ -5,7 +5,7 @@ import Typography from './Typography'
 const Navbar: FC = () => {
     return (
         <View>
-            <Typography text='Лучшая пицца🍕' size={30} weight={"900"} />
+            <Typography align='auto' color='#000' text='Лучшая пицца🍕' size={30} weight={"900"} />
         </View>
     )
 }

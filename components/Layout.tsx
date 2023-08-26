@@ -18,8 +18,12 @@ export default Layout
 const styles = StyleSheet.create({
     layout: {
         paddingTop: 45,
+        paddingBottom: 20,
         paddingHorizontal: 20,
         backgroundColor: "#fff",
-        height: "100%"
+        height: "100%",
+        flex: 1,
+        flexDirection: "column",
+        justifyContent: "space-between"
     }
 })
