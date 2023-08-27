@@ -5,12 +5,13 @@ import Typography from './Typography'
 
 type button = {
     title: string,
-    size: "100%" | 100
+    size: "100%" | 100,
+    onPress?: () => void,
 }
 
-const Button: FC<button> = ({ title, size }) => {
+const Button: FC<button> = ({ title, size, onPress }) => {
     return (
-        <TouchableOpacity activeOpacity={0.8} style={[{ width: size }, styles.button]}>
+        <TouchableOpacity onPress={onPress} activeOpacity={0.8} style={[{ width: size }, styles.button]}>
             <Typography align='center' size={14} text={title} weight='600' color='#fff' />
         </TouchableOpacity>
     )

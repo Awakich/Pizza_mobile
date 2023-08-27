@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
 import { FC, useState, useEffect } from 'react'
-import { pizzas } from '../../models';
+import { pizza } from '../../models';
 import Layout from '../../components/Layout'
 import axios from 'axios';
 import Button from '../../components/Button';
@@ -8,13 +8,18 @@ import Loading from '../../components/Loading';
 import Typography from '../../components/Typography';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useAppDispatch } from '../../entities/hooks';
+import { addCart } from '../../entities/slices/cartlice';
 
 const PizzaDetails: FC<any> = ({ route }) => {
-    const navigation = useNavigation();
+    const navigation = useNavigation() as any;
     const { item } = route.params;
-    const [pizza, setPizza] = useState<pizzas>()
+
+    const [pizza, setPizza] = useState<pizza>()
     const [activeIndexSize, setActiveIndexSize] = useState<number>(0)
     const [activeIndexTypes, setActiveIndexTypes] = useState<number>(0)
+
+    const dispatch = useAppDispatch();
 
     const getPizza = async () => { await axios.get(`https://6468f6b203bb12ac208307ac.mockapi.io/pizzas/${item}`).then(res => setPizza(res.data)) }
     useEffect(() => { try { getPizza() } catch (error) { <Loading /> } }, [])
@@ -23,9 +28,13 @@ const PizzaDetails: FC<any> = ({ route }) => {
 
     if (!pizza) return <Loading />
 
-    return (
-        <Layout>
+    const addPizzaHandler = () => {
+        dispatch(addCart(pizza))
+        navigation.navigate("Корзина")
+    }
 
+    return (
+        <Layout padding={45}>
             <View>
                 <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.goBack()} style={styles.icon}>
                     <Text style={styles.iconText}>{"<--"}</Text>
@@ -35,7 +44,7 @@ const PizzaDetails: FC<any> = ({ route }) => {
 
                 <View style={styles.textBlock}>
                     <Typography text={pizza?.title} weight='500' align='auto' color='#000' size={24} />
-                    <Typography align='auto' color='#888' size={13} text={pizza?.description} weight='400' />
+                    <Typography align='auto' color='#888' size={13} text={pizza?.description as string} weight='400' />
                 </View>
 
 
@@ -52,7 +61,7 @@ const PizzaDetails: FC<any> = ({ route }) => {
                 </View>
             </View>
 
-            <Button size={"100%"} title={`В КОРЗИНУ ЗА ${pizza?.price} ₽`} />
+            <Button onPress={addPizzaHandler} size={"100%"} title={`В КОРЗИНУ ЗА ${pizza?.price} ₽`} />
         </Layout>
     )
 }

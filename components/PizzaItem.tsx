@@ -1,12 +1,12 @@
-import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
-import { pizzas } from '../models'
+import { StyleSheet, TouchableOpacity, View, Image } from 'react-native'
+import { pizza } from '../models'
 import { FC } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import Typography from './Typography'
 import Button from './Button'
 
-const PizzaItem: FC<pizzas> = ({ imageUrl, price, title, description, id }) => {
-    const navigation = useNavigation() as any
+const PizzaItem: FC<pizza> = ({ imageUrl, price, title, description, id }) => {
+    const navigation = useNavigation() as any;
 
     return (
         <TouchableOpacity activeOpacity={1} onPress={() => navigation.navigate("Детали", { item: id })} style={styles.pizza}>
@@ -14,7 +14,7 @@ const PizzaItem: FC<pizzas> = ({ imageUrl, price, title, description, id }) => {
 
             <View style={styles.textblock}>
                 <Typography align='auto' color='#000' text={title} size={17} weight='700' />
-                <Typography align='auto' color='#000' text={description} size={13} weight="300" />
+                <Typography align='auto' color='#000' text={description as string} size={13} weight="300" />
 
                 <Button size={100} title={`от ${price} ₽`} />
             </View>
@@ -22,7 +22,7 @@ const PizzaItem: FC<pizzas> = ({ imageUrl, price, title, description, id }) => {
     )
 }
 
-export default PizzaItem
+export default PizzaItem;
 
 const styles = StyleSheet.create({
     pizza: {

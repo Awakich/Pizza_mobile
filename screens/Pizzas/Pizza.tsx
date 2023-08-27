@@ -1,25 +1,31 @@
 import { FlatList, StyleSheet } from 'react-native'
-import { FC, useEffect, useState } from 'react'
-import { pizzas } from '../../models'
-import axios from 'axios'
+import { FC, useEffect } from 'react'
+import { useAppDispatch, useAppSelector } from '../../entities/hooks'
+import { categorySelector } from '../../entities/slices/categorySlice'
 import PizzaItem from '../../components/PizzaItem'
-import Typography from '../../components/Typography'
 import Layout from '../../components/Layout'
 import Loading from '../../components/Loading'
 import Navbar from '../../components/Navbar'
 import Categories from '../../components/Categories'
+import { getPizzas, pizzaSelector } from '../../entities/slices/pizzaSlice'
 
 const Pizza: FC = () => {
-    const [pizzas, setPizzas] = useState<pizzas[]>([])
+    const categoryItem = useAppSelector(categorySelector)
+    const pizzas = useAppSelector(pizzaSelector)
 
-    const fetchData = async () => { await axios.get('https://6468f6b203bb12ac208307ac.mockapi.io/pizzas').then(res => setPizzas(res.data)) }
+    const dispatch = useAppDispatch()
 
-    useEffect(() => { fetchData() }, [])
+    const fetchData = async () => {
+        const category = categoryItem > 0 ? `category=${categoryItem}` : ""
+        dispatch(getPizzas({ category }))
+    }
+
+    useEffect(() => { fetchData() }, [categoryItem])
 
     if (!pizzas) return <Loading />
 
     return (
-        <Layout>
+        <Layout padding={45}>
             <Navbar />
             <Categories />
             <FlatList showsVerticalScrollIndicator={false} keyExtractor={(item) => item.id?.toString() as string} data={pizzas} renderItem={(item) => (
@@ -32,7 +38,9 @@ const Pizza: FC = () => {
                     sizes={item.item.sizes}
                     types={item.item.types}
                     id={item.item.id}
-                    key={item.item.id} />
+                    key={item.item.id}
+                    count={item.item.count}
+                />
             )} />
         </Layout>
     )
