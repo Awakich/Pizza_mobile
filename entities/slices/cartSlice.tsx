@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { pizza } from '../../models'
+import { pizza, pizzaInfo } from '../../models'
 import { RootState } from '../store';
 
 type cart = {
@@ -16,7 +16,7 @@ const cartSlice = createSlice({
     name: "cart",
     initialState,
     reducers: {
-        addCart: (state, action: PayloadAction<pizza>) => {
+        addCart: (state, action) => {
             const findPizza = state.pizzas.find((pizza) => pizza.id === action.payload.id)
 
             if (findPizza) {
@@ -31,12 +31,23 @@ const cartSlice = createSlice({
             state.totalPrice = state.pizzas.reduce((sum, pizza) => (pizza.count * pizza.price) + sum, 0)
         },
 
+        minusPizza: (state, action) => {
+            const findPizza = state.pizzas.find((pizza) => pizza.id === action.payload.id);
+
+            if (findPizza) {
+                findPizza.count--;
+            }
+
+            state.totalPrice = state.pizzas.reduce((sum, pizza) => (pizza.count * pizza.price) + sum, 0)
+        },
+
         resetCart: (state) => {
             state.pizzas = [];
-        }
+            state.totalPrice = 0
+        },
     }
 })
 
-export const { addCart, resetCart } = cartSlice.actions;
+export const { addCart, minusPizza, resetCart } = cartSlice.actions;
 export default cartSlice.reducer;
 export const cartSelector = (state: RootState) => state.cartReducer;

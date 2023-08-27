@@ -16,7 +16,7 @@ const PizzaItem: FC<pizza> = ({ imageUrl, price, title, description, id }) => {
                 <Typography align='auto' color='#000' text={title} size={17} weight='700' />
                 <Typography align='auto' color='#000' text={description as string} size={13} weight="300" />
 
-                <Button size={100} title={`от ${price} ₽`} />
+                <Button color_font='#fff' color_bg='#EA580C' margin={10} padding={10} size={100} title={`от ${price} ₽`} />
             </View>
         </TouchableOpacity>
     )

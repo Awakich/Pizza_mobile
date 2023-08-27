@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import { FC } from 'react'
 import { useAppDispatch, useAppSelector } from '../../entities/hooks'
-import { cartSelector, resetCart } from '../../entities/slices/cartlice'
+import { cartSelector, resetCart } from '../../entities/slices/cartSlice'
 import { FlatList } from 'react-native-gesture-handler'
 import Layout from '../../components/Layout'
 import Empty from '../../components/Empty'
@@ -18,7 +18,7 @@ const Cart: FC = () => {
     const dispatch = useAppDispatch();
     const totalCount = pizzas.reduce((sum, pizza) => pizza.count + sum, 0);
 
-    if (!pizzas.length || totalPrice === 0) return <Empty />
+    if (!pizzas.length || !totalPrice) return <Empty />
 
     const payHandlder = () => {
         dispatch(resetCart());
@@ -28,17 +28,20 @@ const Cart: FC = () => {
     return (
         <Layout padding={20}>
             <Typography color='#000' weight='500' align='auto' size={20} text={`${totalCount} товаров на ${totalPrice} ₽`} />
-            <FlatList keyExtractor={(item) => item?.id as string} data={pizzas} renderItem={({ item }) =>
+            {pizzas && <FlatList style={styles.cart} keyExtractor={(item) => item?.id as string} data={pizzas} renderItem={({ item }) =>
                 <PizzaCart
-                    types={item.types}
-                    sizes={item.types}
+                    id={item.id}
+                    types={`${item.types}`}
+                    sizes={`${item.sizes}`}
                     title={item.title}
                     imageUrl={item.imageUrl}
                     price={item.price}
                     count={item.count}
-                />}
-            />
-            <Button onPress={payHandlder} title={`ОФОРМИТЬ ЗА ${totalPrice} ₽`} size={"100%"} />
+                />
+            }
+            />}
+
+            <Button color_font='#fff' color_bg='#EA580C' margin={10} padding={15} onPress={payHandlder} title={`ОФОРМИТЬ ЗА ${totalPrice} ₽`} size={"100%"} />
         </Layout>
     )
 }
@@ -46,5 +49,7 @@ const Cart: FC = () => {
 export default Cart;
 
 const styles = StyleSheet.create({
-
+    cart: {
+        marginTop: 20,
+    }
 })

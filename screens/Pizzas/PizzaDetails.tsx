@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
 import { FC, useState, useEffect } from 'react'
-import { pizza } from '../../models';
+import { pizza, pizzaInfo } from '../../models';
 import Layout from '../../components/Layout'
 import axios from 'axios';
 import Button from '../../components/Button';
@@ -9,7 +9,7 @@ import Typography from '../../components/Typography';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useAppDispatch } from '../../entities/hooks';
-import { addCart } from '../../entities/slices/cartlice';
+import { addCart } from '../../entities/slices/cartSlice';
 
 const PizzaDetails: FC<any> = ({ route }) => {
     const navigation = useNavigation() as any;
@@ -18,19 +18,28 @@ const PizzaDetails: FC<any> = ({ route }) => {
     const [pizza, setPizza] = useState<pizza>()
     const [activeIndexSize, setActiveIndexSize] = useState<number>(0)
     const [activeIndexTypes, setActiveIndexTypes] = useState<number>(0)
-
     const dispatch = useAppDispatch();
 
     const getPizza = async () => { await axios.get(`https://6468f6b203bb12ac208307ac.mockapi.io/pizzas/${item}`).then(res => setPizza(res.data)) }
     useEffect(() => { try { getPizza() } catch (error) { <Loading /> } }, [])
 
-    const type: string[] = ["тонкое", "традиционное"]
+    const types_dough: string[] = ["тонкое", "традиционное"]
 
     if (!pizza) return <Loading />
 
     const addPizzaHandler = () => {
-        dispatch(addCart(pizza))
-        navigation.navigate("Корзина")
+        const pizzaInfo: pizzaInfo = {
+            id: pizza.id,
+            price: pizza.price,
+            title: pizza.title,
+            imageUrl: pizza.imageUrl,
+            types: types_dough[activeIndexTypes],
+            sizes: pizza.sizes[activeIndexSize],
+            count: 0
+        }
+
+        dispatch(addCart(pizzaInfo))
+        navigation.navigate("Home")
     }
 
     return (
@@ -56,12 +65,12 @@ const PizzaDetails: FC<any> = ({ route }) => {
 
                 <View style={styles.groups}>
                     {pizza?.types?.map((num, index) => (
-                        <Text onPress={() => setActiveIndexTypes(index)} style={activeIndexTypes === index ? styles.indexActive : styles.indexInActive} key={index}>{type[num]}</Text>
+                        <Text onPress={() => setActiveIndexTypes(index)} style={activeIndexTypes === index ? styles.indexActive : styles.indexInActive} key={index}>{types_dough[num]}</Text>
                     ))}
                 </View>
             </View>
 
-            <Button onPress={addPizzaHandler} size={"100%"} title={`В КОРЗИНУ ЗА ${pizza?.price} ₽`} />
+            <Button color_font='#fff' color_bg='#EA580C' margin={10} padding={15} onPress={addPizzaHandler} size={"100%"} title={`В КОРЗИНУ ЗА ${pizza?.price} ₽`} />
         </Layout>
     )
 }
